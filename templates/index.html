@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+{% block homeactive %}active{% endblock homeactive %}
+
+{% block body %}
+<h1 class="my-3 text-center">Welcome To Weather Detector App</h1>
+<div class="container mx-7 my-3">
+    <img src="static/weather2.jpg" class="rounded float-left px-1" alt="...">
+    <img src="static/weather3.jpg" class="rounded float-right" alt="...">
+</div>
+
+<div class="container my-4">
+    <form action="/" method="POST">
+        {%csrf_token%}
+    <label for="exampleDataList" class="form-label text-dark"><strong>Enter City Name</strong></label>
+<input class="form-control" list="datalistOptions" id="exampleDataList" name="city" placeholder="Type to search...">
+<datalist id="datalistOptions">
+  <option value="Delhi">
+  <option value="Mumbai">
+  <option value="Banglore">
+  <option value="Patna">
+  <option value="Muzaffarpur">
+</datalist>
+<button type="submit" class="btn btn-outline-success my-3">Search</button>
+</form>
+</div>
+
+<div class="row mx-5 px-5">
+    {% if data.country_code %}
+    <div class="col-md-6 col-md-offset-3">
+      <h1>{{data.city}}</h1>
+      <h3>country code : {{data.country_code}}</h1>
+        <h5>coordinate : {{data.coordinate}}</h5>
+        <h5>temp : {{data.temp}}</h5>
+        <h5>pressure : {{data.pressure}} </h5>
+        <h5>humidity : {{data.humidity}}</h5>
+    </div>
+    {% endif %}
+  </div>
+
+{% endblock body %}
+
