@@ -1,13 +1,14 @@
 from django.shortcuts import render,HttpResponse
 import json
 import urllib.request
+from weather.models import Contact
 
 # Create your views here.
 
 def index(request):
     if request.method == 'POST':
         city = request.POST.get('city')
-        res = urllib.request.urlopen('https://api.openweathermap.org/data/2.5/weather?q='+city+'&appid=f3bb95d267d0d2ffc0ea0a0a5732e408').read()
+        res = urllib.request.urlopen('http://api.openweathermap.org/data/2.5/weather?q='+city+'&appid=ded956a99e83cfa92e3509a573a6b09c').read()
         json_data = json.loads(res)
         data = {
             "city": city,
@@ -25,4 +26,14 @@ def index(request):
     return render(request,'index.html',data)
 
 def contact(request):
-    return render(request,'contact.html')
+    context = {'success':False}
+    if request.method == 'POST':
+        name = request.POST.get('name')
+        email = request.POST.get('email')
+        phone = request.POST.get('phone')
+        desc = request.POST.get('desc')
+
+        data = Contact(name=name,email=email,phone=phone,desc=desc)
+        data.save()
+        context={'success':True}
+    return render(request,'contact.html',context)
